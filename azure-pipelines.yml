@@ -14,7 +14,7 @@ steps:
   inputs:
     command: 'custom'
     customCommandAndArgs: 'pack'
-    artifactoryConnection: 'shivani-npm'
+    artifactoryConnection: 'shivani'
     targetRepo: 'shivani-npm-local'
     collectBuildInfo: true
     buildName: '$(Build.DefinitionName)'
