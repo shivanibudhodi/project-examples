@@ -1,0 +1,37 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: JFrogNpm@1
+  inputs:
+    command: 'custom'
+    customCommandAndArgs: 'pack'
+    artifactoryConnection: 'shivani-npm'
+    targetRepo: 'shivani-npm-local'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    includeEnvVars: true
+- task: JFrogGenericArtifacts@1
+  inputs:
+    command: 'Upload'
+    connection: 'shivani'
+    specSource: 'taskConfiguration'
+    fileSpec: |
+      {
+        "files": [
+          {
+            "pattern": "npm-project",
+            "target": "shivani-npm-local/folder1/folder2/nginx-1.0.8.tgz"
+          }
+        ]
+      }
+    failNoOp: true
